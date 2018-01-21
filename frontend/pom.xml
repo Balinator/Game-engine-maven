@@ -12,6 +12,8 @@
     <artifactId>frontend</artifactId>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lwjgl.version>3.1.5</lwjgl.version>
         <joml.version>1.9.6</joml.version>
         <steamworks4j.version>1.6.2</steamworks4j.version>

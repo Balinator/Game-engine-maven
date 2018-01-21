@@ -6,6 +6,12 @@
 
     <groupId>ro.balinator.project</groupId>
     <artifactId>game-engine</artifactId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
     <packaging>pom</packaging>
     <version>0.1</version>
     <modules>

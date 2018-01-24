@@ -21,6 +21,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>ro.balinator.project</groupId>
+            <artifactId>data</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ro.balinator.project</groupId>
+            <artifactId>logic</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
             <version>${lwjgl.version}</version>

@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import ro.balinator.gameengine.entity.RawModel;
 
 
 public class Loader {
@@ -15,12 +16,12 @@ public class Loader {
     private ArrayList<Integer> vaos = new ArrayList<>();
     private ArrayList<Integer> vbos = new ArrayList<>();
 
-    /*public RawModel loadToVao(float[] pos) {
+    public RawModel loadToVao(float[] pos) {
         int vaoId = createVAO();
         storeDataInAttributeList(0, 3, pos);
         unbindVAO();
         return new RawModel(vaoId, pos.length / 3);
-    }*/
+    }
 
     public void cleanUp() {
         for (int i : vaos) {

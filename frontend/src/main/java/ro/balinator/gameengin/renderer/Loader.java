@@ -10,12 +10,14 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import ro.balinator.gameengine.entity.RawModel;
+import ro.balinator.gameengine.entity.TexturedModel;
 
 
 public class Loader {
 
     private ArrayList<Integer> vaos = new ArrayList<>();
     private ArrayList<Integer> vbos = new ArrayList<>();
+    private ArrayList<Integer> textures = new ArrayList<>();
 
     public RawModel loadToVao(float[] positions, int[] indices) {
         int vaoId = createVAO();
@@ -25,12 +27,30 @@ public class Loader {
         return new RawModel(vaoId, indices.length);
     }
 
+    public RawModel loadToVao(float[] positions, float[] textureCoordinates, int[] indices) {
+        int vaoId = createVAO();
+        bindIndicesBuffer(indices);
+        storeDataInAttributeList(0, 3, positions);
+        storeDataInAttributeList(1,2, textureCoordinates);
+        unbindVAO();
+        return new RawModel(vaoId, indices.length);
+    }
+
+    public int loadTexture(String fileName){
+        int textureID = TextureLoader.loadTexture(fileName);
+        textures.add(textureID);
+        return textureID;
+    }
+
     public void cleanUp() {
         for (int i : vaos) {
             GL30.glDeleteVertexArrays(i);
         }
         for (int i : vbos) {
             GL15.glDeleteBuffers(i);
+        }
+        for (int i : textures){
+            GL11.glDeleteTextures(i);
         }
     }
 

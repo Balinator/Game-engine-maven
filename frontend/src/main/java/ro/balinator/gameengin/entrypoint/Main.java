@@ -3,8 +3,8 @@ package ro.balinator.gameengin.entrypoint;
 import ro.balinator.gameengin.display.DisplayManager;
 import ro.balinator.gameengin.renderer.Loader;
 import ro.balinator.gameengin.renderer.Renderer;
-import ro.balinator.gameengin.shader.colorShader.ColourShader;
-import ro.balinator.gameengin.shader.textureShader.TextureShader;
+import ro.balinator.gameengin.shader.color.ColourShader;
+import ro.balinator.gameengin.shader.texture.TextureShader;
 import ro.balinator.gameengine.entity.ColouredModel;
 import ro.balinator.gameengine.entity.TexturedModel;
 

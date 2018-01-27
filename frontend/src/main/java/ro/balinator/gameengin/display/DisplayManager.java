@@ -17,9 +17,12 @@ import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
+import lombok.Getter;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
+import ro.balinator.gameengine.exception.DisplayException;
 
+@Getter
 public class DisplayManager {
     public static final DisplayManager INSTANCE = new DisplayManager();
 
@@ -127,7 +130,7 @@ public class DisplayManager {
                 }
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new DisplayException("Display exception at sync!", e);
         }finally{
             lastTime = System.nanoTime() - Math.min(overSleep, sleepTime);
 

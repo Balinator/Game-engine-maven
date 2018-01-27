@@ -52,17 +52,17 @@ public abstract class ShaderProgram {
 
     private static int loadShader(String file, int type) {
         StringBuilder shaderSource = new StringBuilder();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))){
             String line;
             while ((line = reader.readLine()) != null) {
                 shaderSource.append(line).append("//\n");
             }
             reader.close();
         } catch (IOException e) {
+            final String typeEx = type == GL20.GL_VERTEX_SHADER ? "Vertex" : type == GL20.GL_FRAGMENT_SHADER ? "Fragment" : "else";
             throw new ShaderException(
                     "Shader at given path not existing! Path: " + file + " Type: " +
-                            (type == GL20.GL_VERTEX_SHADER ? "Vertex" : type == GL20.GL_FRAGMENT_SHADER ? "Fragment" : "else"),
+                            typeEx,
                     e);
         }
         int shaderID = GL20.glCreateShader(type);

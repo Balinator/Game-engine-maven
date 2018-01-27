@@ -1,4 +1,4 @@
-package ro.balinator.gameengine.entity;
+package ro.balinator.gameengine.entity.model;
 
 import lombok.Getter;
 
@@ -7,11 +7,11 @@ import lombok.Getter;
  */
 @Getter
 public class RawModel {
-    private int vaoID;
+    private int vaoId;
     private int vertexCount;
 
     public RawModel(int vaoID, int vertexCount) {
-        this.vaoID = vaoID;
+        this.vaoId = vaoID;
         this.vertexCount = vertexCount;
     }
 }

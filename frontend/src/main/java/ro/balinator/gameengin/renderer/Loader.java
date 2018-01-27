@@ -9,8 +9,10 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import ro.balinator.gameengine.entity.RawModel;
+import ro.balinator.gameengine.entity.ColouredModel;
 import ro.balinator.gameengine.entity.TexturedModel;
+import ro.balinator.gameengine.entity.model.ModelTexture;
+import ro.balinator.gameengine.entity.model.RawModel;
 
 
 public class Loader {
@@ -19,7 +21,7 @@ public class Loader {
     private ArrayList<Integer> vbos = new ArrayList<>();
     private ArrayList<Integer> textures = new ArrayList<>();
 
-    public RawModel loadToVao(float[] positions, int[] indices) {
+    public RawModel loadToRawModel(float[] positions, int[] indices) {
         int vaoId = createVAO();
         bindIndicesBuffer(indices);
         storeDataInAttributeList(0, 3, positions);
@@ -27,13 +29,22 @@ public class Loader {
         return new RawModel(vaoId, indices.length);
     }
 
-    public RawModel loadToVao(float[] positions, float[] textureCoordinates, int[] indices) {
+    public TexturedModel loadToTexturedModel(float[] positions, int[] indices, float[] textureCoordinates, String fileName) {
         int vaoId = createVAO();
         bindIndicesBuffer(indices);
         storeDataInAttributeList(0, 3, positions);
         storeDataInAttributeList(1,2, textureCoordinates);
         unbindVAO();
-        return new RawModel(vaoId, indices.length);
+        return new TexturedModel(new RawModel(vaoId,indices.length), new ModelTexture(loadTexture(fileName)));
+    }
+
+    public ColouredModel loadToColouredModel(float[] positions, int[] indices, float[] colors) {
+        int vaoId = createVAO();
+        bindIndicesBuffer(indices);
+        storeDataInAttributeList(0, 3, positions);
+        storeDataInAttributeList(1,3, colors);
+        unbindVAO();
+        return new ColouredModel(new RawModel(vaoId,indices.length));
     }
 
     public int loadTexture(String fileName){

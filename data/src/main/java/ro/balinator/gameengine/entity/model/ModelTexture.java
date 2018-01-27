@@ -1,4 +1,4 @@
-package ro.balinator.gameengine.entity;
+package ro.balinator.gameengine.entity.model;
 
 import lombok.Getter;
 

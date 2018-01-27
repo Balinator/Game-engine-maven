@@ -3,9 +3,9 @@ package ro.balinator.gameengin.entrypoint;
 import ro.balinator.gameengin.display.DisplayManager;
 import ro.balinator.gameengin.renderer.Loader;
 import ro.balinator.gameengin.renderer.Renderer;
-import ro.balinator.gameengin.shader.StaticShader;
-import ro.balinator.gameengine.entity.ModelTexture;
-import ro.balinator.gameengine.entity.RawModel;
+import ro.balinator.gameengin.shader.colorShader.ColourShader;
+import ro.balinator.gameengin.shader.textureShader.TextureShader;
+import ro.balinator.gameengine.entity.ColouredModel;
 import ro.balinator.gameengine.entity.TexturedModel;
 
 /**
@@ -18,7 +18,8 @@ public class Main {
 
         Loader loader = new Loader();
         Renderer renderer = new Renderer();
-        StaticShader shader = new StaticShader();
+        TextureShader textureShader = new TextureShader();
+        ColourShader colourShader = new ColourShader();
 
         float[] vertices = {
                 -0.5f, 0.5f, 0f,//v0
@@ -39,10 +40,17 @@ public class Main {
                 1,0  //v4
         };
 
-        ModelTexture modelTexture = new ModelTexture(loader.loadTexture("resources/git.png"));
-        RawModel rawModel = loader.loadToVao(vertices,textureCordinates,indices);
+        float[] colors ={
+                0,0,1, //v1
+                0,0,0.5f, //v2
+                1,0,0, //v3
+                0.5f,0,0 //v4
+        };
 
-        TexturedModel texturedModel = new TexturedModel(rawModel,modelTexture);
+        TexturedModel texturedModel = loader.loadToTexturedModel(vertices,indices,textureCordinates,"resources/git.png");
+        ColouredModel colouredModel = loader.loadToColouredModel(vertices,indices,colors);
+
+        int counter = 0;
 
         while(!displayManager.isCloseRequested()){
             renderer.prepare();
@@ -50,15 +58,22 @@ public class Main {
             //TODO: gameLogic
 
             //TODO: render
-            shader.start();
-            renderer.render(texturedModel);
-            shader.stop();
+            if(counter < 1000) {
+                textureShader.start();
+                renderer.render(texturedModel);
+                textureShader.stop();
+            }else {
+                colourShader.start();
+                renderer.render(colouredModel);
+                colourShader.stop();
+            }
 
+            counter = (counter + 1) % 2000;
             displayManager.updateDisplay();
         }
 
         loader.cleanUp();
-        shader.cleanUp();
+        textureShader.cleanUp();
 
         displayManager.closeDisplay();
     }

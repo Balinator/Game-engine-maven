@@ -13,12 +13,19 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <joml.version>1.9.7</joml.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.21.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.joml</groupId>
+            <artifactId>joml</artifactId>
+            <version>${joml.version}</version>
         </dependency>
     </dependencies>
 

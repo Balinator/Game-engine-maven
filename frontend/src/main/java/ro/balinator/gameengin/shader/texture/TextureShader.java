@@ -1,5 +1,7 @@
 package ro.balinator.gameengin.shader.texture;
 
+import org.joml.Matrix4f;
+import ro.balinator.gameengin.shader.UniformEnum;
 import ro.balinator.gameengin.shader.ShaderProgram;
 
 /**
@@ -19,6 +21,12 @@ public class TextureShader extends ShaderProgram {
         super.bindAttribute(1, "textureCoordinates");
     }
 
+    @Override
+    protected void getAllUniformLocations() {
+        putUniformId(UniformEnum.TRANSFORMATION_MATRIX);
+    }
 
-
+    public void loadTransformationMatrix(Matrix4f matrix) {
+        super.loadMatrix4f(super.getUniformId(UniformEnum.TRANSFORMATION_MATRIX), matrix);
+    }
 }

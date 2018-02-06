@@ -1,6 +1,8 @@
 package ro.balinator.gameengin.shader.color;
 
+import org.joml.Matrix4f;
 import ro.balinator.gameengin.shader.ShaderProgram;
+import ro.balinator.gameengin.shader.UniformEnum;
 
 /**
  * Created by Balinator on 2018. 01. 24..
@@ -19,6 +21,13 @@ public class ColourShader extends ShaderProgram{
         super.bindAttribute(1, "colour");
     }
 
+    @Override
+    protected void getAllUniformLocations() {
+        putUniformId(UniformEnum.TRANSFORMATION_MATRIX);
+    }
 
+    public void loadTransformationMatrix(Matrix4f matrix) {
+        super.loadMatrix4f(super.getUniformId(UniformEnum.TRANSFORMATION_MATRIX), matrix);
+    }
 
 }

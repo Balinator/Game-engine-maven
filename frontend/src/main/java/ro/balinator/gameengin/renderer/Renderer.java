@@ -1,10 +1,12 @@
 package ro.balinator.gameengin.renderer;
 
+import lombok.Getter;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import ro.balinator.gameengin.display.DisplayManager;
 import ro.balinator.gameengin.shader.ShaderMaths;
 import ro.balinator.gameengin.shader.color.ColourShader;
 import ro.balinator.gameengin.shader.texture.TextureShader;
@@ -17,6 +19,17 @@ import ro.balinator.gameengine.entity.TexturedModel;
  * Created by Balinator on 2018. 01. 24..
  */
 public class Renderer {
+
+    private static final float FEALD_OF_VIEW = 70;
+    private static final float NEAR_PLANE = 0.1f;
+    private static final float FAR_PLANE = 1000;
+
+    @Getter
+    private Matrix4f projectionMatrix;
+
+    public Renderer() {
+        createProjectonMatrix();
+    }
 
     public void prepare() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
@@ -54,5 +67,20 @@ public class Renderer {
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
         GL30.glBindVertexArray(0);
+    }
+
+    private void createProjectonMatrix(){
+        float aspectRatio = (float) DisplayManager.INSTANCE.getSWeight() / (float) DisplayManager.INSTANCE.getSHeight();
+        float y_scale = (float) ((1f / Math.tan(Math.toRadians(FEALD_OF_VIEW / 2f))) * aspectRatio);
+        float x_scale = y_scale / aspectRatio;
+        float frustum_length = FAR_PLANE - NEAR_PLANE;
+
+        projectionMatrix = new Matrix4f();
+        projectionMatrix.m00(x_scale);
+        projectionMatrix.m11(y_scale);
+        projectionMatrix.m22(-((FAR_PLANE + NEAR_PLANE) / frustum_length));
+        projectionMatrix.m23(-1);
+        projectionMatrix.m32(-((2 * NEAR_PLANE * FAR_PLANE) / frustum_length));
+        projectionMatrix.m33(0);
     }
 }

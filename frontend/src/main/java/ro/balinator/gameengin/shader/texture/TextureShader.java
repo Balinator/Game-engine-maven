@@ -24,9 +24,14 @@ public class TextureShader extends ShaderProgram {
     @Override
     protected void getAllUniformLocations() {
         putUniformId(UniformEnum.TRANSFORMATION_MATRIX);
+        putUniformId(UniformEnum.PROJECTION_MATRIX);
     }
 
     public void loadTransformationMatrix(Matrix4f matrix) {
         super.loadMatrix4f(super.getUniformId(UniformEnum.TRANSFORMATION_MATRIX), matrix);
+    }
+
+    public void loadProjectionMatrix(Matrix4f matrix) {
+        super.loadMatrix4f(super.getUniformId(UniformEnum.PROJECTION_MATRIX), matrix);
     }
 }

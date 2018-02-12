@@ -8,7 +8,9 @@ import lombok.Getter;
 @Getter
 public enum UniformEnum {
 
-    TRANSFORMATION_MATRIX("transformationMatrix")
+    TRANSFORMATION_MATRIX("transformationMatrix"),
+
+    PROJECTION_MATRIX("projectionMatrix")
 
     ;
 

@@ -26,6 +26,13 @@ public class TestStage extends Stage {
         this.renderer = new Renderer();
         this.textureShader = new TextureShader();
         this.colourShader = new ColourShader();
+
+        this.textureShader.start();
+        this.textureShader.loadProjectionMatrix(this.renderer.getProjectionMatrix());
+        this.textureShader.stop();
+        this.colourShader.start();
+        this.colourShader.loadProjectionMatrix(this.renderer.getProjectionMatrix());
+        this.colourShader.stop();
     }
 
     @Override
@@ -78,7 +85,8 @@ public class TestStage extends Stage {
 
     @Override
     public void logic() {
-
+        texturedStaticEntity.translate(new Vector3f(0,0,-1));
+        colouredStaticEntity.translate(new Vector3f(0,0,-0.1f));
     }
 
     @Override

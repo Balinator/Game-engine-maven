@@ -10,7 +10,9 @@ public enum UniformEnum {
 
     TRANSFORMATION_MATRIX("transformationMatrix"),
 
-    PROJECTION_MATRIX("projectionMatrix")
+    PROJECTION_MATRIX("projectionMatrix"),
+
+    VIEW_MATRIX("viewMatrix")
 
     ;
 

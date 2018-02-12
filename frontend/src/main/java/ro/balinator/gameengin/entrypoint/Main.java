@@ -17,7 +17,6 @@ public class Main {
 
         while (!displayManager.isCloseRequested()) {
             stageManager.frame();
-            System.out.println(stageManager.getTime());
             displayManager.updateDisplay();
         }
 

@@ -1,6 +1,7 @@
 package ro.balinator.gameengin.stage.instances;
 
 import org.joml.Vector3f;
+import ro.balinator.gameengin.renderer.Camera;
 import ro.balinator.gameengin.renderer.Loader;
 import ro.balinator.gameengin.renderer.Renderer;
 import ro.balinator.gameengin.shader.color.ColourShader;
@@ -20,12 +21,14 @@ public class TestStage extends Stage {
     private ColourShader colourShader;
     private StaticEntity<TexturedModel> texturedStaticEntity;
     private StaticEntity<ColouredModel> colouredStaticEntity;
+    private Camera camera;
 
     private void initVariables(){
         this.loader = new Loader();
         this.renderer = new Renderer();
         this.textureShader = new TextureShader();
         this.colourShader = new ColourShader();
+        this.camera = new Camera();
 
         this.textureShader.start();
         this.textureShader.loadProjectionMatrix(this.renderer.getProjectionMatrix());
@@ -72,10 +75,12 @@ public class TestStage extends Stage {
         ColouredModel colouredModel = loader.loadToColouredModel(vertices, indices, colors);
 
         texturedStaticEntity = new StaticEntity<>(texturedModel,
-                new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 1);
+                new Vector3f(0, 0, -1), new Vector3f(0, 0, 0), 1);
 
         colouredStaticEntity = new StaticEntity<>(colouredModel,
-                new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 1);
+                new Vector3f(0, 0, -1), new Vector3f(0, 0, 0), 1);
+
+        camera.move();
     }
 
     @Override
@@ -85,18 +90,19 @@ public class TestStage extends Stage {
 
     @Override
     public void logic() {
-        texturedStaticEntity.translate(new Vector3f(0,0,-1));
-        colouredStaticEntity.translate(new Vector3f(0,0,-0.1f));
+
     }
 
     @Override
     public void render() {
         if (getStageTime() % 2000 < 1000) {
             textureShader.start();
+            textureShader.loadViewMatrix(camera);
             renderer.render(texturedStaticEntity, textureShader);
             textureShader.stop();
         } else {
             colourShader.start();
+            colourShader.loadViewMatrix(camera);
             renderer.render(colouredStaticEntity, colourShader);
             colourShader.stop();
         }

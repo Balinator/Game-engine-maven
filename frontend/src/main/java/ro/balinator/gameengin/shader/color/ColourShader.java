@@ -1,6 +1,8 @@
 package ro.balinator.gameengin.shader.color;
 
 import org.joml.Matrix4f;
+import ro.balinator.gameengin.renderer.Camera;
+import ro.balinator.gameengin.shader.ShaderMaths;
 import ro.balinator.gameengin.shader.ShaderProgram;
 import ro.balinator.gameengin.shader.UniformEnum;
 
@@ -25,6 +27,7 @@ public class ColourShader extends ShaderProgram{
     protected void getAllUniformLocations() {
         putUniformId(UniformEnum.TRANSFORMATION_MATRIX);
         putUniformId(UniformEnum.PROJECTION_MATRIX);
+        putUniformId(UniformEnum.VIEW_MATRIX);
     }
 
     public void loadTransformationMatrix(Matrix4f matrix) {
@@ -35,4 +38,7 @@ public class ColourShader extends ShaderProgram{
         super.loadMatrix4f(super.getUniformId(UniformEnum.PROJECTION_MATRIX), matrix);
     }
 
+    public void loadViewMatrix(Camera camera){
+        super.loadMatrix4f(super.getUniformId(UniformEnum.VIEW_MATRIX), ShaderMaths.createViewMatrix(camera));
+    }
 }

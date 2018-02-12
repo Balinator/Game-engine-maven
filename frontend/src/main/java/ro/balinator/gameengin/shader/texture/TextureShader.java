@@ -1,6 +1,8 @@
 package ro.balinator.gameengin.shader.texture;
 
 import org.joml.Matrix4f;
+import ro.balinator.gameengin.renderer.Camera;
+import ro.balinator.gameengin.shader.ShaderMaths;
 import ro.balinator.gameengin.shader.UniformEnum;
 import ro.balinator.gameengin.shader.ShaderProgram;
 
@@ -25,6 +27,7 @@ public class TextureShader extends ShaderProgram {
     protected void getAllUniformLocations() {
         putUniformId(UniformEnum.TRANSFORMATION_MATRIX);
         putUniformId(UniformEnum.PROJECTION_MATRIX);
+        putUniformId(UniformEnum.VIEW_MATRIX);
     }
 
     public void loadTransformationMatrix(Matrix4f matrix) {
@@ -33,5 +36,9 @@ public class TextureShader extends ShaderProgram {
 
     public void loadProjectionMatrix(Matrix4f matrix) {
         super.loadMatrix4f(super.getUniformId(UniformEnum.PROJECTION_MATRIX), matrix);
+    }
+
+    public void loadViewMatrix(Camera camera){
+        super.loadMatrix4f(super.getUniformId(UniformEnum.VIEW_MATRIX), ShaderMaths.createViewMatrix(camera));
     }
 }

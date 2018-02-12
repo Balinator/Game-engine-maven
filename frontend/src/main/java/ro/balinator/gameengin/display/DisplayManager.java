@@ -14,6 +14,8 @@ import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
+
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
@@ -84,6 +86,7 @@ public class DisplayManager {
     }
 
     public void closeDisplay(){
+        glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
         glfwTerminate();
     }

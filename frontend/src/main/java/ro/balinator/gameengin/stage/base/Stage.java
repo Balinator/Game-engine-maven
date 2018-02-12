@@ -1,4 +1,4 @@
-package ro.balinator.gameengin.stage;
+package ro.balinator.gameengin.stage.base;
 
 /**
  * Created by Balinator on 2018. 02. 06..
@@ -19,11 +19,11 @@ public abstract class Stage {
         return System.currentTimeMillis() - startTime + plusTime;
     }
 
-    void timeStart(){
+    public void timeStart(){
         startTime = System.currentTimeMillis();
     }
 
-    void timeStop(){
+    public void timeStop(){
         plusTime += startTime;
     }
 

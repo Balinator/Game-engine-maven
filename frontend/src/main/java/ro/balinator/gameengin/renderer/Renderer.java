@@ -6,13 +6,12 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import ro.balinator.gameengin.display.DisplayManager;
+import ro.balinator.gameengin.managers.DisplayManager;
 import ro.balinator.gameengin.shader.ShaderMaths;
 import ro.balinator.gameengin.shader.color.ColourShader;
 import ro.balinator.gameengin.shader.texture.TextureShader;
 import ro.balinator.gameengine.entity.ColouredModel;
 import ro.balinator.gameengine.entity.StaticEntity;
-import ro.balinator.gameengine.entity.model.RawModel;
 import ro.balinator.gameengine.entity.TexturedModel;
 
 /**

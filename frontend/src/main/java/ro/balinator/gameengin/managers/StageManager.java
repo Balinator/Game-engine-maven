@@ -1,6 +1,7 @@
-package ro.balinator.gameengin.stage;
+package ro.balinator.gameengin.managers;
 
-
+import ro.balinator.gameengin.stage.base.Stage;
+import ro.balinator.gameengin.stage.base.StageEnum;
 import ro.balinator.gameengine.exception.StageException;
 
 import java.util.EnumMap;
@@ -15,15 +16,40 @@ public class StageManager {
 
     private Stage primaryStage;
 
+    private Runnable callLater;
+
     private StageManager() {}
 
     public void frame(){
         if(this.primaryStage == null){
             throw new StageException("Primary stage is null!");
         }
+        this.callLater();
         this.primaryStage.prepare();
         this.primaryStage.logic();
         this.primaryStage.render();
+    }
+
+    private void callLater() {
+        if(this.callLater != null){
+            synchronized (this.callLater){
+                this.callLater.run();
+                this.callLater = null;
+            }
+        }
+    }
+
+    public synchronized void addCallLater(Runnable callLater){
+        if(this.callLater != null){
+            synchronized (this.callLater){
+                this.callLater = () -> {
+                    this.callLater.run();
+                    callLater.run();
+                };
+            }
+        }else{
+            this.callLater = callLater;
+        }
     }
 
     public void cleanUp(){
@@ -56,5 +82,13 @@ public class StageManager {
 
     public long getTime(){
         return primaryStage.getStageTime();
+    }
+
+    public boolean isPrimaryStage(Stage stage) {
+        try {
+            return primaryStage.equals(stage);
+        }catch (NullPointerException e){
+            throw new StageException("PrimaryStage is null!",e);
+        }
     }
 }

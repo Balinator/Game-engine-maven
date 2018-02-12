@@ -1,4 +1,4 @@
-package ro.balinator.gameengin.display;
+package ro.balinator.gameengin.managers;
 
 /**
  * Created by Balinator on 2017. 12. 27..

@@ -1,14 +1,15 @@
-package ro.balinator.gameengin.stage;
+package ro.balinator.gameengin.stage.base;
 
-import ro.balinator.gameengin.stage.instances.TestStage;
+import ro.balinator.gameengin.stage.ColoredStage;
+import ro.balinator.gameengin.stage.TexturedStage;
 
 /**
  * Created by Balinator on 2018. 02. 06..
  */
 public enum  StageEnum {
-    TEST_STAGE(TestStage.class),
+    TEXTURED_STAGE(TexturedStage.class),
 
-    MENU_STAGE(TestStage.class);
+    COLORED_STAGE(ColoredStage.class);
 
     StageEnum(Class<? extends Stage> type){
         this.type = type;

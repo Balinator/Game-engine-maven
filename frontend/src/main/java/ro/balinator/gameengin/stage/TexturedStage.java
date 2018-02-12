@@ -1,41 +1,37 @@
-package ro.balinator.gameengin.stage.instances;
+package ro.balinator.gameengin.stage;
 
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
+import ro.balinator.gameengin.managers.InputManager;
+import ro.balinator.gameengin.managers.StageManager;
 import ro.balinator.gameengin.renderer.Camera;
 import ro.balinator.gameengin.renderer.Loader;
 import ro.balinator.gameengin.renderer.Renderer;
-import ro.balinator.gameengin.shader.color.ColourShader;
 import ro.balinator.gameengin.shader.texture.TextureShader;
-import ro.balinator.gameengin.stage.Stage;
-import ro.balinator.gameengine.entity.ColouredModel;
+import ro.balinator.gameengin.stage.base.Stage;
+import ro.balinator.gameengin.stage.base.StageEnum;
 import ro.balinator.gameengine.entity.StaticEntity;
 import ro.balinator.gameengine.entity.TexturedModel;
 
 /**
  * Created by Balinator on 2018. 02. 06..
  */
-public class TestStage extends Stage {
+public class TexturedStage extends Stage {
     private Loader loader;
     private Renderer renderer;
     private TextureShader textureShader;
-    private ColourShader colourShader;
     private StaticEntity<TexturedModel> texturedStaticEntity;
-    private StaticEntity<ColouredModel> colouredStaticEntity;
     private Camera camera;
 
     private void initVariables(){
         this.loader = new Loader();
         this.renderer = new Renderer();
         this.textureShader = new TextureShader();
-        this.colourShader = new ColourShader();
         this.camera = new Camera();
 
         this.textureShader.start();
         this.textureShader.loadProjectionMatrix(this.renderer.getProjectionMatrix());
         this.textureShader.stop();
-        this.colourShader.start();
-        this.colourShader.loadProjectionMatrix(this.renderer.getProjectionMatrix());
-        this.colourShader.stop();
     }
 
     @Override
@@ -61,26 +57,46 @@ public class TestStage extends Stage {
                 1, 0  //v4
         };
 
-        float[] colors = {
-                0, 0, 1, //v1
-                0, 0, 0.5f, //v2
-                1, 0, 0, //v3
-                0.5f, 0, 0 //v4
-        };
-
         if(loader == null){
             System.out.println("null");
         }
         TexturedModel texturedModel = loader.loadToTexturedModel(vertices, indices, textureCordinates, "resources/git.png");
-        ColouredModel colouredModel = loader.loadToColouredModel(vertices, indices, colors);
 
         texturedStaticEntity = new StaticEntity<>(texturedModel,
                 new Vector3f(0, 0, -1), new Vector3f(0, 0, 0), 1);
 
-        colouredStaticEntity = new StaticEntity<>(colouredModel,
-                new Vector3f(0, 0, -1), new Vector3f(0, 0, 0), 1);
-
-        camera.move();
+        InputManager.INSANCE.registerInput((window, key, scancode, action, mods) -> {
+            if(StageManager.INSTANCE.isPrimaryStage(TexturedStage.this)) {
+                switch (key) {
+                    case GLFW.GLFW_KEY_W:
+                        camera.getPosition().add(0, -1, 0);
+                        break;
+                    case GLFW.GLFW_KEY_S:
+                        camera.getPosition().add(0, 1, 0);
+                        break;
+                    case GLFW.GLFW_KEY_A:
+                        camera.getPosition().add(1, 0, 0);
+                        break;
+                    case GLFW.GLFW_KEY_D:
+                        camera.getPosition().add(-1, 0, 0);
+                        break;
+                    case GLFW.GLFW_KEY_P:
+                        if (action == GLFW.GLFW_RELEASE) {
+                            StageManager.INSTANCE.addCallLater(() -> StageManager.INSTANCE.setStage(StageEnum.COLORED_STAGE));
+                        }
+                        break;
+                }
+            }
+        });
+        InputManager.INSANCE.registerInput((window, xOffset, yOffset) -> {
+            if(StageManager.INSTANCE.isPrimaryStage(TexturedStage.this)) {
+                if (yOffset < 0) {
+                    camera.getPosition().add(0, 0, -1);
+                } else if (yOffset > 0) {
+                    camera.getPosition().add(0, 0, 1);
+                }
+            }
+        });
     }
 
     @Override
@@ -95,23 +111,15 @@ public class TestStage extends Stage {
 
     @Override
     public void render() {
-        if (getStageTime() % 2000 < 1000) {
             textureShader.start();
             textureShader.loadViewMatrix(camera);
             renderer.render(texturedStaticEntity, textureShader);
             textureShader.stop();
-        } else {
-            colourShader.start();
-            colourShader.loadViewMatrix(camera);
-            renderer.render(colouredStaticEntity, colourShader);
-            colourShader.stop();
-        }
     }
 
     @Override
     public void cleanUp() {
         loader.cleanUp();
         textureShader.cleanUp();
-        colourShader.cleanUp();
     }
 }

@@ -1,8 +1,9 @@
 package ro.balinator.gameengin.entrypoint;
 
-import ro.balinator.gameengin.display.DisplayManager;
-import ro.balinator.gameengin.stage.StageEnum;
-import ro.balinator.gameengin.stage.StageManager;
+import ro.balinator.gameengin.managers.DisplayManager;
+import ro.balinator.gameengin.managers.InputManager;
+import ro.balinator.gameengin.stage.base.StageEnum;
+import ro.balinator.gameengin.managers.StageManager;
 
 /**
  * Created by Balinator on 2017. 12. 28..
@@ -13,7 +14,10 @@ public class Main {
         displayManager.createDisplay();
 
         StageManager stageManager = StageManager.INSTANCE;
-        stageManager.setStage(StageEnum.TEST_STAGE);
+        stageManager.setStage(StageEnum.TEXTURED_STAGE);
+
+        InputManager inputManager = InputManager.INSANCE;
+        inputManager.initImput();
 
         while (!displayManager.isCloseRequested()) {
             stageManager.frame();

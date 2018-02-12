@@ -1,14 +1,8 @@
 package ro.balinator.gameengin.entrypoint;
 
-import org.joml.Vector3f;
 import ro.balinator.gameengin.display.DisplayManager;
-import ro.balinator.gameengin.renderer.Loader;
-import ro.balinator.gameengin.renderer.Renderer;
-import ro.balinator.gameengin.shader.color.ColourShader;
-import ro.balinator.gameengin.shader.texture.TextureShader;
-import ro.balinator.gameengine.entity.ColouredModel;
-import ro.balinator.gameengine.entity.StaticEntity;
-import ro.balinator.gameengine.entity.TexturedModel;
+import ro.balinator.gameengin.stage.StageEnum;
+import ro.balinator.gameengin.stage.StageManager;
 
 /**
  * Created by Balinator on 2017. 12. 28..
@@ -18,69 +12,16 @@ public class Main {
         DisplayManager displayManager = DisplayManager.INSTANCE;
         displayManager.createDisplay();
 
-        Loader loader = new Loader();
-        Renderer renderer = new Renderer();
-        TextureShader textureShader = new TextureShader();
-        ColourShader colourShader = new ColourShader();
-
-        float[] vertices = {
-                -0.5f, 0.5f, 0f,//v0
-                -0.5f, -0.5f, 0f,//v1
-                0.5f, -0.5f, 0f,//v2
-                0.5f, 0.5f, 0f,//v3
-        };
-
-        int[] indices = {
-                0, 1, 3,//top left triangle (v0, v1, v3)
-                3, 1, 2//bottom right triangle (v3, v1, v2)
-        };
-
-        float[] textureCordinates = {
-                0, 0, //v1
-                0, 1, //v2
-                1, 1, //v3
-                1, 0  //v4
-        };
-
-        float[] colors = {
-                0, 0, 1, //v1
-                0, 0, 0.5f, //v2
-                1, 0, 0, //v3
-                0.5f, 0, 0 //v4
-        };
-
-        TexturedModel texturedModel = loader.loadToTexturedModel(vertices, indices, textureCordinates, "resources/git.png");
-        ColouredModel colouredModel = loader.loadToColouredModel(vertices, indices, colors);
-
-        StaticEntity<TexturedModel> texturedStaticEntity = new StaticEntity<>(texturedModel,
-                new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 1);
-
-        StaticEntity<ColouredModel> colouredStaticEntity = new StaticEntity<>(colouredModel,
-                new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 1);
-
-        int counter = 0;
+        StageManager stageManager = StageManager.INSTANCE;
+        stageManager.setStage(StageEnum.TEST_STAGE);
 
         while (!displayManager.isCloseRequested()) {
-            renderer.prepare();
-            //TODO: gameLogic
-
-            //TODO: render
-            if (counter < 150) {
-                textureShader.start();
-                renderer.render(texturedStaticEntity, textureShader);
-                textureShader.stop();
-            } else {
-                colourShader.start();
-                renderer.render(colouredStaticEntity, colourShader);
-                colourShader.stop();
-            }
-
-            counter = (counter + 1) % 300;
+            stageManager.frame();
+            System.out.println(stageManager.getTime());
             displayManager.updateDisplay();
         }
 
-        loader.cleanUp();
-        textureShader.cleanUp();
+        stageManager.cleanUp();
 
         displayManager.closeDisplay();
     }

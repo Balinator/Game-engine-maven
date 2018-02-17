@@ -5,7 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import ro.balinator.gameengin.managers.InputManager;
 import ro.balinator.gameengin.managers.StageManager;
 import ro.balinator.gameengin.renderer.Camera;
-import ro.balinator.gameengin.renderer.Loader;
+import ro.balinator.gameengin.renderer.loader.Loader;
 import ro.balinator.gameengin.renderer.Renderer;
 import ro.balinator.gameengin.shader.texture.TextureShader;
 import ro.balinator.gameengin.stage.base.Stage;
@@ -38,29 +38,10 @@ public class TexturedStage extends Stage {
     protected void init() {
         initVariables();
 
-        float[] vertices = {
-                -0.5f, 0.5f,  0f,//v0
-                -0.5f, -0.5f, 0f,//v1
-                0.5f,  -0.5f, 0f,//v2
-                0.5f,  0.5f,  0f,//v3
-        };
-
-        int[] indices = {
-                0, 1, 3,//top left triangle (v0, v1, v3)
-                3, 1, 2//bottom right triangle (v3, v1, v2)
-        };
-
-        float[] textureCordinates = {
-                0, 0, //v1
-                0, 1, //v2
-                1, 1, //v3
-                1, 0  //v4
-        };
-
         if(loader == null){
             System.out.println("null");
         }
-        TexturedModel texturedModel = loader.loadToTexturedModel(vertices, indices, textureCordinates, "resources/git.png");
+        TexturedModel texturedModel = loader.loadToTexturedModel("resources/rect.obj", "resources/git.png");
 
         texturedStaticEntity = new StaticEntity<>(texturedModel,
                 new Vector3f(0, 0, -1), new Vector3f(0, 0, 0), 1);
